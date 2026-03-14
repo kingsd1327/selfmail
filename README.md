@@ -1,5 +1,4 @@
-﻿
-![Interface SelfMail](Example.png)
+﻿﻿![Interface SelfMail](Example.png)
 
 Service d'email temporaire auto-hébergé. Génère une adresse jetable valide **1 heure**, reçoit les emails en temps réel et les affiche dans une interface moderne inspirée de [temp-mail.org](https://temp-mail.org).
 
@@ -133,8 +132,12 @@ docker compose restart php-api
 # Arrêter tout
 docker compose down
 
-# Rebuild complet
+# Rebuild complet (standard)
 docker compose up --build -d
+
+# Rebuild propre (efface le cache et force la recréation si 502 Bad Gateway etc.)
+docker builder prune -a -f
+docker compose up --build --force-recreate -d
 
 # Envoyer un email de test (PowerShell)
 $bytes = [System.Text.Encoding]::UTF8.GetBytes('{"from":{"Email":"test@example.com"},"to":[{"Email":"votre-adresse@tempmail.local"}],"subject":"Test","text":"Hello !"}')

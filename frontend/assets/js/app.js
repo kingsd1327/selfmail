@@ -63,6 +63,7 @@ async function init() {
 async function generateNew() {
     if (currentToken) await deleteMailbox(currentToken);
     emailDisplay.textContent = 'Génération en cours...';
+    emails = [];
     clearList();
     closeDetail();
 
