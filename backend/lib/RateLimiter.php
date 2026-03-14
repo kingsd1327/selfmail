@@ -1,7 +1,5 @@
 <?php
-/**
- * Simple IP-based Rate Limiter using filesystem
- */
+
 class RateLimiter
 {
     private int    $maxRequests;
@@ -19,9 +17,7 @@ class RateLimiter
         }
     }
 
-    /**
-     * Returns true if request is allowed, false if rate limited
-     */
+
     public function check(string $ip): bool
     {
         $key  = $this->storageDir . '/' . md5($ip) . '.json';
@@ -35,7 +31,6 @@ class RateLimiter
             }
         }
 
-        // Remove old requests outside the window
         $data['requests'] = array_filter(
             $data['requests'],
             fn($t) => ($now - $t) < $this->windowSeconds
@@ -49,7 +44,6 @@ class RateLimiter
         $data['requests'][] = $now;
         file_put_contents($key, json_encode($data));
 
-        // Cleanup old files occasionally
         if (rand(1, 50) === 1) {
             $this->cleanup();
         }
